@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import { MongoCreateUserRepository } from "../infra/repositories/create-user/mongo-create-user";
 import { MongoGetUsersRepository } from "../infra/repositories/get-users/mongo-get-users";
 import { GetUsersController } from "../presentation/controllers/get-users/get-users";
@@ -6,7 +6,7 @@ import { CreateUserController } from "../presentation/controllers/create-users/c
 
 const userRouter = Router();
 
-userRouter.get("/users", async (req, res) => {
+userRouter.get("/users", async (req: Request, res: Response) => {
   const mongoGetUsersRepository = new MongoGetUsersRepository();
   const getUsersController = new GetUsersController(mongoGetUsersRepository);
 
@@ -15,7 +15,7 @@ userRouter.get("/users", async (req, res) => {
   res.status(statusCode).send(body);
 });
 
-userRouter.post("/users", async (req, res) => {
+userRouter.post("/users", async (req: Request, res: Response) => {
   const mongoCreateUserRepository = new MongoCreateUserRepository();
   const createUserController = new CreateUserController(
     mongoCreateUserRepository

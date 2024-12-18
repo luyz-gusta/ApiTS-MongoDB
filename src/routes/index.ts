@@ -1,8 +1,8 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import userRouter from './userRoutes';
 
 const router = (app: express.Application) => {
-    app.route('/').get((_req, res) => {
+    app.route('/').get((_req: Request, res: Response) => {
         res.send("Hello World!");
     })
 
