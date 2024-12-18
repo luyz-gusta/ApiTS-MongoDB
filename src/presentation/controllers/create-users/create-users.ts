@@ -1,3 +1,4 @@
+import UsersRepository from "../../../infra/repositories/user-repository";
 import {
   created,
   errorBadRequest,
@@ -5,17 +6,16 @@ import {
 } from "../../helpers/http-helpers";
 import { IController } from "../../protocols/controller";
 import { HttpRequest, HttpResponse } from "../../protocols/http";
-import { ICreateUserRepository } from "./protocols";
 
 export class CreateUserController implements IController {
-  constructor(private readonly createUserRepository: ICreateUserRepository) {}
+  constructor(private readonly userRepository: UsersRepository) {}
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       if (!httpRequest.body) {
         return errorBadRequest();
       }
 
-      const user = await this.createUserRepository.createUser(httpRequest.body);
+      const user = await this.userRepository.createUser(httpRequest.body);
 
       return created(user);
     } catch (error) {

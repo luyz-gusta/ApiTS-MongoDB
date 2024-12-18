@@ -1,8 +1,8 @@
 import express, { Application } from "express";
-import router from "./routes";
+import router from "./main/routes";
 import cors from "cors";
 import { config } from "dotenv";
-import { MongoClient } from "./domain/database/mongo";
+import mongoose from "mongoose";
 
 const main = async () => {
   config();
@@ -20,7 +20,10 @@ const main = async () => {
   app.use(cors(corsOptions));
   app.use(express.json());
 
-  await MongoClient.connect()
+  await mongoose
+    .connect(
+      `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUESTER}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority&appName=ClusterGlobal`
+    )
     .then(() => {
       router(app);
       app.listen(port, () => console.log(`Server listening on port ${port}`));
