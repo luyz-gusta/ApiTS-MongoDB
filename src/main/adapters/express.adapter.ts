@@ -15,7 +15,6 @@ export const adaptRoute = (controller: IController) => {
       query: request.query,
       params: request.params,
       headers: request.headers,
-      //user: request.user,
       nextFunction: next,
     };
 
@@ -24,6 +23,6 @@ export const adaptRoute = (controller: IController) => {
     httpResponse.headers !== undefined
       ? response.set(httpResponse.headers)
       : null;
-    response.status(httpResponse.statusCode).json(httpResponse.body);
+    response.status(httpResponse.statusCode).json(httpResponse);
   };
 };

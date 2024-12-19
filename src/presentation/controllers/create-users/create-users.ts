@@ -2,7 +2,7 @@ import UsersRepository from "../../../infra/repositories/user-repository";
 import {
   created,
   errorBadRequest,
-  errorInternalServer,
+  handleDatabaseError,
 } from "../../helpers/http-helpers";
 import { IController } from "../../protocols/controller";
 import { HttpRequest, HttpResponse } from "../../protocols/http";
@@ -19,7 +19,7 @@ export class CreateUserController implements IController {
 
       return created(user);
     } catch (error) {
-      return errorInternalServer(error);
+      return handleDatabaseError(error);
     }
   }
 }

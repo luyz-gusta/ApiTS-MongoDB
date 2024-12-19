@@ -23,12 +23,12 @@ export const created = (data: any): HttpResponse => {
   };
 };
 
-export const errorBadRequest = (message?: string): HttpResponse => {
+export const errorBadRequest = (error?: any): HttpResponse => {
   return {
     statusCode: 400,
     body: {
-      message:
-        message || "Todas as informações devem ser preenchidas corretamente.",
+      message: "Todas as informações devem ser preenchidas corretamente.",
+      error,
     },
   };
 };
@@ -42,12 +42,30 @@ export const errorNotFound = (message?: string): HttpResponse => {
   };
 };
 
-export const errorInternalServer = (error: any): HttpResponse => {
+export const handleDatabaseError = (error: any): HttpResponse => {
+  if (error.code === 11000) {
+    // Código de erro para chave duplicada no MongoDB
+    const duplicatedField = Object.keys(error.keyPattern)[0];
+    const duplicatedValue = error.keyValue[duplicatedField];
+
+    // Mensagem de erro traduzida
+    const errorMessage = `O valor '${duplicatedValue}' já está em uso para o campo '${duplicatedField}'. Por favor, utilize outro.`;
+
+    return {
+      statusCode: 400,
+      body: {
+        message: errorMessage,
+        field: duplicatedField,
+        value: duplicatedValue,
+      },
+    };
+  }
+
   return {
     statusCode: 500,
     body: {
-      message: "Erro interno no servidor.",
-      error,
+      message:
+        "Ocorreu um erro no servidor. Por favor, tente novamente mais tarde.",
     },
   };
 };

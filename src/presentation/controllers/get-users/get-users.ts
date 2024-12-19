@@ -1,5 +1,5 @@
 import UsersRepository from "../../../infra/repositories/user-repository";
-import { errorInternalServer, successRequest } from "../../helpers/http-helpers";
+import { handleDatabaseError, successRequest } from "../../helpers/http-helpers";
 import { IController } from "../../protocols/controller";
 import { HttpResponse } from "../../protocols/http";
 
@@ -13,7 +13,7 @@ export class GetUsersController implements IController {
       return successRequest(users)
     } catch (error) {
       console.log(error)
-      return errorInternalServer(error)
+      return handleDatabaseError(error)
     }
   }
 }

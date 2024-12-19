@@ -8,9 +8,10 @@ const userSchema = new Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    pictures: { type: [String], required: true },
+    // pictures: { type: [String], required: true },
     isActive: { type: Boolean, default: true },
     lastLogin: { type: Date },
+    profilePicture: { type: String, required: true },
     createdAt: { 
       type: Date, 
       default: () => {

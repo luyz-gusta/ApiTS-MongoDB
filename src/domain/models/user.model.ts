@@ -7,8 +7,9 @@ export interface UserModel {
   email: string;
   password: string;
   isActive?: boolean;
-  lastLogin?: Date;
+  lastLogin?: Date | null;
   createdAt?: Date;
   updatedAt?: Date;
-  tipoUsuario: string;
+  userType: string;
+  profilePicture: string;
 }
